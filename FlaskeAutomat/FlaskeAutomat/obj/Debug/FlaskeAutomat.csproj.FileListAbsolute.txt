@@ -1,0 +1,8 @@
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe.config
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.pdb
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.AssemblyReference.cache
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.SuggestedBindingRedirects.cache
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.CoreCompileInputs.cache
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.exe
+H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.pdb
