@@ -18,10 +18,10 @@ namespace FlaskeAutomat
         static Drink[] buffer = new Drink[10];
 
         static int beersIndex = 0;
-        static Drink[] beers = new Beer[10];
+        static Drink[] beers = new Drink[10];
 
         static int energyIndex = 0;
-        static Drink[] energiDrinks = new EnergiDrink[10];
+        static Drink[] energidrinks = new Drink[10];
 
         static void Main(string[] args)
         {
@@ -38,7 +38,7 @@ namespace FlaskeAutomat
             c1.Name = "Consumer 1";
             c1.Start();
 
-            Thread c2 = new Thread(new ThreadStart(EnergyConsumer));
+            Thread c2 = new Thread(new ThreadStart(EnergydrinksConsumer));
             c2.Name = "Consumer 2";
             c2.Start();
 
@@ -49,13 +49,12 @@ namespace FlaskeAutomat
         {
             while (true)
             {
-                Random rand = new Random();
                 Monitor.Enter(_lock);
+                Random rand = new Random();
                 while (bufferIndex < 9)
                 {
-                    Thread.Sleep(200);
-                    int rng = rand.Next(0, 2);
 
+                    int rng = rand.Next(0, 2);
 
                     if (rng % 2 == 0)
                     {
@@ -75,32 +74,32 @@ namespace FlaskeAutomat
         {
             while (true)
             {
-                if (bufferIndex > 1)
+                if (bufferIndex > 5)
                 {
-                    Monitor.Enter(_lock);
+                    Monitor.TryEnter(_lock);
+                    Monitor.TryEnter(_beerLock);
+                    Monitor.TryEnter(_energyLock);
 
-                    foreach (Drink item in buffer)
+                    for (int i = 0; i < bufferIndex - 1; i++)
                     {
-                        Thread.Sleep(200);
-                        if (item == null)
+                        if (buffer[i].Name == "Beer")
                         {
-                        }
-                        else if (item.Name == "Beer")
-                        {
-                            beers[beersIndex] = item; beersIndex++;
+                            beers[beersIndex] = buffer[i]; beersIndex++;
 
-                            buffer[bufferIndex] = null; bufferIndex--;
+                            buffer[i] = null; bufferIndex--;
                             Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Beer from buffer to beers");
                         }
                         else
                         {
-                            energiDrinks[energyIndex] = item; energyIndex++;
+                            energidrinks[energyIndex] = buffer[i]; energyIndex++;
 
-                            buffer[bufferIndex] = null; bufferIndex--;
+                            buffer[i] = null; bufferIndex--;
                             Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Energy Drink from buffer to Energydrinks");
                         }
                     }
-                    Monitor.Exit(_lock);
+                    Monitor.PulseAll(_beerLock);
+                    Monitor.PulseAll(_energyLock);
+                    Monitor.PulseAll(_lock);
 
                 }
             }
@@ -109,48 +108,36 @@ namespace FlaskeAutomat
         {
             while (true)
             {
-                if (beers.Length > 1)
+                if (beersIndex > 4)
                 {
                     lock (_beerLock)
                     {
-
-                        foreach (Drink item in beers)
+                        Monitor.Wait(_beerLock);
+                        for (int i = 0; i < beersIndex - 1; i++)
                         {
-                            Thread.Sleep(200);
-                            if (item == null)
-                            {
-                            }
-                            else
-                            {
-                                Console.WriteLine($"[{Thread.CurrentThread.Name}]| Beer has been consumt");
-                                beers[beersIndex] = null; if (beersIndex == 0) { } else { beersIndex--; }
-                            }
+                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Beer has been consumt");
+                            beers[i] = null;
                         }
+                        beersIndex = 0;
                     }
                 }
             }
         }
-        static void EnergyConsumer()
+        static void EnergydrinksConsumer()
         {
             while (true)
             {
-                if (energiDrinks.Length > 1)
+                if (energyIndex > 0)
                 {
                     lock (_energyLock)
                     {
-
-                        foreach (Drink item in energiDrinks)
+                        Monitor.Wait(_energyLock);
+                        for (int i = 0; i < energyIndex - 1; i++)
                         {
-                            Thread.Sleep(200);
-                            if (item == null)
-                            {
-                            }
-                            else
-                            {
-                                Console.WriteLine($"[{Thread.CurrentThread.Name}]| Energy Drink has been consumt");
-                                energiDrinks[energyIndex] = null; if (energyIndex == 0) { } else { energyIndex--; };
-                            }
+                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Energy Drink has been consumt");
+                            energidrinks[i] = null;
                         }
+
                     }
                 }
             }

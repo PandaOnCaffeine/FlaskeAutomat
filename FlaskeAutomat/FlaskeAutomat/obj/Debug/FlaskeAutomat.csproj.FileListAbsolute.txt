@@ -6,3 +6,11 @@ H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.cs
 H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.CoreCompileInputs.cache
 H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.exe
 H:\Programming\H2\Threads\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.pdb
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe.config
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.pdb
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.AssemblyReference.cache
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.SuggestedBindingRedirects.cache
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.CoreCompileInputs.cache
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.exe
+C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.pdb
