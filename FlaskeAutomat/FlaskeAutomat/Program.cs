@@ -9,19 +9,17 @@ namespace FlaskeAutomat
 {
     internal class Program
     {
-        static readonly object _lock = new object();
-        static readonly object _beerLock = new object();
-        static readonly object _energyLock = new object();
-
-
+        //Buffer array, Used by producer and splitter
         static int bufferIndex = 0;
         static Drink[] buffer = new Drink[10];
 
+        //BeersBuffer Array, Used by splitter and beerConsumer
         static int beersIndex = 0;
         static Drink[] beers = new Drink[10];
 
+        //Energydrinks array, Used by splitter and EnergyConsumer  
         static int energyIndex = 0;
-        static Drink[] energidrinks = new Drink[10];
+        static Drink[] energydrinks = new Drink[10];
 
         static void Main(string[] args)
         {
@@ -102,13 +100,13 @@ namespace FlaskeAutomat
                             }
                             else
                             {
-                                lock (energidrinks)
+                                lock (energydrinks)
                                 {
                                     if (energyIndex > 9)
                                     {
-                                        Monitor.Wait(energidrinks);
+                                        Monitor.Wait(energydrinks);
                                     }
-                                    energidrinks[energyIndex] = buffer[i]; energyIndex++;
+                                    energydrinks[energyIndex] = buffer[i]; energyIndex++;
 
                                     buffer[i] = null;
                                     Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Energy Drink from buffer to Energydrinks", Console.ForegroundColor = ConsoleColor.Green);
@@ -157,20 +155,20 @@ namespace FlaskeAutomat
                 if (energyIndex > 9)
                 {
                     //Locks energydrinks array
-                    lock (energidrinks)
+                    lock (energydrinks)
                     {
                         //for loop, loops through energydrinks array and consumes the drinks
                         for (int i = 0; i < energyIndex - 1; i++)
                         {
                             Thread.Sleep(100);
                             Console.WriteLine($"[{Thread.CurrentThread.Name}]| Energy Drink has been consumt", Console.ForegroundColor = ConsoleColor.Green);
-                            energidrinks[i] = null;
+                            energydrinks[i] = null;
                         }
                         //sets energydrink index to 0
                         energyIndex = 0;
 
                         //Pulses all waiting threads that use energydrinks array
-                        Monitor.PulseAll(energidrinks);
+                        Monitor.PulseAll(energydrinks);
                     }
                 }
             }
