@@ -14,3 +14,11 @@ C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\Fl
 C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.CoreCompileInputs.cache
 C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.exe
 C:\Users\Tue\Source\Repos\FlaskeAutomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.pdb
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe.config
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.exe
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\bin\Debug\FlaskeAutomat.pdb
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.AssemblyReference.cache
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.SuggestedBindingRedirects.cache
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.csproj.CoreCompileInputs.cache
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.exe
+E:\Local\Downloads\Flaskeautomat\FlaskeAutomat\FlaskeAutomat\obj\Debug\FlaskeAutomat.pdb

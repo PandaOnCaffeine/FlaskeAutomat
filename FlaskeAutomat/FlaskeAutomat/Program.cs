@@ -47,59 +47,77 @@ namespace FlaskeAutomat
         }
         static void Producer()
         {
+            Random rand = new Random();
             while (true)
             {
-                Monitor.Enter(_lock);
-                Random rand = new Random();
-                while (bufferIndex < 9)
-                {
+                Thread.Sleep(100);
 
+                lock (buffer)
+                {
+                    if (bufferIndex == buffer.Length)
+                    {
+                        Monitor.Wait(buffer);
+                    }
                     int rng = rand.Next(0, 2);
 
                     if (rng % 2 == 0)
                     {
                         buffer[bufferIndex] = new Beer("Beer"); bufferIndex++;
-                        Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Produced beer");
+                        Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Produced beer", Console.ForegroundColor = ConsoleColor.DarkBlue);
                     }
                     else
                     {
                         buffer[bufferIndex] = new EnergiDrink("EnergyDrink"); bufferIndex++;
-                        Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Produced EnergyDrink");
+                        Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Produced EnergyDrink", Console.ForegroundColor = ConsoleColor.Green);
                     }
                 }
-                Monitor.Exit(_lock);
             }
         }
         static void Splitter()
         {
             while (true)
             {
-                if (bufferIndex > 5)
+                lock (buffer)
                 {
-                    Monitor.TryEnter(_lock);
-                    Monitor.TryEnter(_beerLock);
-                    Monitor.TryEnter(_energyLock);
-
-                    for (int i = 0; i < bufferIndex - 1; i++)
+                    if (bufferIndex > 9)
                     {
-                        if (buffer[i].Name == "Beer")
+                        for (int i = 0; i < bufferIndex; i++)
                         {
-                            beers[beersIndex] = buffer[i]; beersIndex++;
+                            Thread.Sleep(100);
 
-                            buffer[i] = null; bufferIndex--;
-                            Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Beer from buffer to beers");
-                        }
-                        else
-                        {
-                            energidrinks[energyIndex] = buffer[i]; energyIndex++;
+                            if (buffer[i].Name == "Beer")
+                            {
+                                lock (beers)
+                                {
+                                    if (beersIndex > 9)
+                                    {
+                                        Monitor.Wait(beers);
+                                    }
+                                    beers[beersIndex] = buffer[i]; beersIndex++;
 
-                            buffer[i] = null; bufferIndex--;
-                            Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Energy Drink from buffer to Energydrinks");
+                                    buffer[i] = null;
+                                    Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Beer from buffer to beers", Console.ForegroundColor = ConsoleColor.DarkBlue);
+                                    Monitor.PulseAll(beers);
+                                }
+                            }
+                            else
+                            {
+                                lock (energidrinks)
+                                {
+                                    if (energyIndex > 9)
+                                    {
+                                        Monitor.Wait(energidrinks);
+                                    }
+                                    energidrinks[energyIndex] = buffer[i]; energyIndex++;
+
+                                    buffer[i] = null;
+                                    Console.WriteLine($"[{Thread.CurrentThread.Name}]  | Moved Energy Drink from buffer to Energydrinks", Console.ForegroundColor = ConsoleColor.Green);
+                                }
+                            }
                         }
+                        bufferIndex = 0;
+                        Monitor.PulseAll(buffer);
                     }
-                    Monitor.PulseAll(_beerLock);
-                    Monitor.PulseAll(_energyLock);
-                    Monitor.PulseAll(_lock);
 
                 }
             }
@@ -108,17 +126,24 @@ namespace FlaskeAutomat
         {
             while (true)
             {
-                if (beersIndex > 4)
+                //If beers array is full
+                if (beersIndex > 9)
                 {
-                    lock (_beerLock)
+                    //Locks beers array
+                    lock (beers)
                     {
-                        Monitor.Wait(_beerLock);
-                        for (int i = 0; i < beersIndex - 1; i++)
+                        //for loop, loops through beers array and consumes all the beers 
+                        for (int i = 0; i < beersIndex; i++)
                         {
-                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Beer has been consumt");
+                            Thread.Sleep(100);
+                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Beer has been consumt", Console.ForegroundColor = ConsoleColor.DarkBlue);
                             beers[i] = null;
                         }
+                        //Sets beersIndex back to 0 beers, because there's no beers left in the array
                         beersIndex = 0;
+
+                        //Pulses the monitor wait that are waiting on a pulse from beers 
+                        Monitor.PulseAll(beers);
                     }
                 }
             }
@@ -127,17 +152,25 @@ namespace FlaskeAutomat
         {
             while (true)
             {
-                if (energyIndex > 0)
+
+                //If energydrink array is full
+                if (energyIndex > 9)
                 {
-                    lock (_energyLock)
+                    //Locks energydrinks array
+                    lock (energidrinks)
                     {
-                        Monitor.Wait(_energyLock);
+                        //for loop, loops through energydrinks array and consumes the drinks
                         for (int i = 0; i < energyIndex - 1; i++)
                         {
-                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Energy Drink has been consumt");
+                            Thread.Sleep(100);
+                            Console.WriteLine($"[{Thread.CurrentThread.Name}]| Energy Drink has been consumt", Console.ForegroundColor = ConsoleColor.Green);
                             energidrinks[i] = null;
                         }
+                        //sets energydrink index to 0
+                        energyIndex = 0;
 
+                        //Pulses all waiting threads that use energydrinks array
+                        Monitor.PulseAll(energidrinks);
                     }
                 }
             }
